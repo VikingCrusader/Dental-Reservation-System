@@ -1,0 +1,6 @@
+target/
+.idea/
+*.iml
+dental.db
+.DS_Store
+Thumbs.db
