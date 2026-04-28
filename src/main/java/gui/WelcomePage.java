@@ -22,47 +22,54 @@ public class WelcomePage {
 
     public static void login() {
         JFrame frame = new JFrame("Teethos – Dental Reservation");
-        frame.setSize(360, 280);
+        frame.setSize(420, 480);                          // 窗口稍窄一点，高度够用
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel(null);
         frame.add(panel);
 
-        // Title
+        // Title — 居中在窗口顶部
         JLabel title = new JLabel("=== USER LOGIN ===", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 15));
-        title.setBounds(50, 20, 260, 30);
+        title.setBounds(85, 15, 240, 30);               // 水平居中
         panel.add(title);
+
+        // Image — 原图 1024x512，按比例缩到宽300，高150
+        ImageIcon logo = new ImageIcon("images/WelcomeImage.png");
+        Image scaledLogo = logo.getImage().getScaledInstance(300, 150, Image.SCALE_SMOOTH);
+        JLabel logoLabel = new JLabel(new ImageIcon(scaledLogo));
+        logoLabel.setBounds(60, 55, 300, 150);           // 宽300 保持 2:1 比例→高150
+        panel.add(logoLabel);
 
         // Username row
         JLabel lblUser = new JLabel("Username:");
-        lblUser.setBounds(50, 70, 90, 25);
+        lblUser.setBounds(60, 230, 90, 25);
         panel.add(lblUser);
 
         JTextField txtUser = new JTextField();
-        txtUser.setBounds(150, 70, 160, 25);
+        txtUser.setBounds(155, 230, 190, 28);
         panel.add(txtUser);
 
         // Password row
         JLabel lblPass = new JLabel("Password:");
-        lblPass.setBounds(50, 110, 90, 25);
+        lblPass.setBounds(60, 275, 90, 25);
         panel.add(lblPass);
 
         JPasswordField txtPass = new JPasswordField();
-        txtPass.setBounds(150, 110, 160, 25);
+        txtPass.setBounds(155, 275, 190, 28);
         panel.add(txtPass);
 
         // Divider
         JSeparator sep = new JSeparator();
-        sep.setBounds(40, 150, 280, 5);
+        sep.setBounds(60, 320, 290, 5);
         panel.add(sep);
 
         // Buttons
         JButton btnLogin    = new JButton("Login");
         JButton btnRegister = new JButton("Create Account");
-        btnLogin.setBounds(55, 165, 110, 32);
-        btnRegister.setBounds(185, 165, 130, 32);
+        btnLogin.setBounds(70, 335, 120, 32);
+        btnRegister.setBounds(210, 335, 130, 32);
         panel.add(btnLogin);
         panel.add(btnRegister);
 
@@ -131,7 +138,7 @@ public class WelcomePage {
      */
     public static void registration(boolean fromLogin) {
         JFrame frame = new JFrame("Register New Patient");
-        frame.setSize(440, 380);
+        frame.setSize(420, 360);                         // 紧凑一些
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
@@ -143,21 +150,21 @@ public class WelcomePage {
 
         for (int i = 0; i < labelTexts.length; i++) {
             JLabel lbl = new JLabel(labelTexts[i]);
-            lbl.setBounds(50, 20 + i * 42, 110, 25);
+            lbl.setBounds(40, 20 + i * 40, 110, 25);    // 行间距40，左边距40
             panel.add(lbl);
 
             // Password field for index 2
             fields[i] = (i == 2) ? new JPasswordField() : new JTextField();
-            fields[i].setBounds(170, 20 + i * 42, 220, 25);
+            fields[i].setBounds(155, 20 + i * 40, 220, 26);
             panel.add(fields[i]);
         }
 
         JButton btnBack = new JButton("Go Back");
-        btnBack.setBounds(65, 278, 120, 32);
+        btnBack.setBounds(70, 268, 120, 32);
         panel.add(btnBack);
 
         JButton btnReg = new JButton("Register");
-        btnReg.setBounds(260, 278, 120, 32);
+        btnReg.setBounds(230, 268, 120, 32);
         panel.add(btnReg);
 
         // ── Go Back ───────────────────────────────────────────────────────────
