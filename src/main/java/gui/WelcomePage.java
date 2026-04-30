@@ -21,25 +21,25 @@ public class WelcomePage {
     // ── LOGIN ─────────────────────────────────────────────────────────────────
 
     public static void login() {
-        JFrame frame = new JFrame("Teethos – Dental Reservation");
-        frame.setSize(420, 480);                          // 窗口稍窄一点，高度够用
+        JFrame frame = new JFrame("Project 3 – Dental Reservation");
+        frame.setSize(420, 480);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel(null);
         frame.add(panel);
 
-        // Title — 居中在窗口顶部
-        JLabel title = new JLabel("=== USER LOGIN ===", JLabel.CENTER);
+        // Title
+        JLabel title = new JLabel("USER LOGIN", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 15));
-        title.setBounds(85, 15, 240, 30);               // 水平居中
+        title.setBounds(85, 15, 240, 30);
         panel.add(title);
 
-        // Image — 原图 1024x512，按比例缩到宽300，高150
+        // Image
         ImageIcon logo = new ImageIcon("images/WelcomeImage.png");
         Image scaledLogo = logo.getImage().getScaledInstance(300, 150, Image.SCALE_SMOOTH);
         JLabel logoLabel = new JLabel(new ImageIcon(scaledLogo));
-        logoLabel.setBounds(60, 55, 300, 150);           // 宽300 保持 2:1 比例→高150
+        logoLabel.setBounds(60, 55, 300, 150);
         panel.add(logoLabel);
 
         // Username row
@@ -72,6 +72,43 @@ public class WelcomePage {
         btnRegister.setBounds(210, 335, 130, 32);
         panel.add(btnLogin);
         panel.add(btnRegister);
+
+        // Authors Button
+        JButton btnAuthors = new JButton("See Creators");
+        btnAuthors.setBounds( 130, 400, 160, 20);
+        btnAuthors.addActionListener(e -> {
+
+            ImageIcon Authors = new ImageIcon("images/Authors.png");
+            Image scaledAuthors = Authors.getImage().getScaledInstance(500, 272, Image.SCALE_SMOOTH);
+            JLabel AuthorsPhoto = new JLabel(new ImageIcon(scaledAuthors));
+            AuthorsPhoto.setHorizontalAlignment(JLabel.CENTER);
+            AuthorsPhoto.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            JTextArea textArea = new JTextArea(
+                    "Authors:\n\n" +
+                            "• Sohrab Dokmechin\n" +
+                            "• Yiwen Zhang\n" +
+                            "• Jingsen Huang\n" +
+                            "• Haochen Gao\n" +
+                            "From Technische Universität Berlin Summer School\n" +
+                            "2025-08-14, in Berlin, Germany\n"
+            );
+            textArea.setFont(new Font("SansSerif", Font.BOLD, 20));
+            textArea.setEditable(false);
+            textArea.setBackground(new Color(240, 240, 240));
+            textArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            JPanel contentPanel = new JPanel();
+            contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+            contentPanel.setBackground(new Color(240, 240, 240));
+            contentPanel.add(AuthorsPhoto);
+            contentPanel.add(Box.createVerticalStrut(10));
+            contentPanel.add(textArea);
+
+            JOptionPane.showMessageDialog(frame, contentPanel, "About the Authors", JOptionPane.PLAIN_MESSAGE);
+        });
+        panel.add(btnAuthors);
+
 
         // ── Login logic ───────────────────────────────────────────────────────
         btnLogin.addActionListener(e -> {
