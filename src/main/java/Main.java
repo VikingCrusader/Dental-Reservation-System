@@ -2,6 +2,7 @@ import database.DatabaseManager;
 import gui.WelcomePage;
 
 import javax.swing.*;
+import java.util.Locale;
 
 /**
  * Application entry point.
@@ -24,7 +25,12 @@ public class Main {
         // 2. Close DB connection when wthe JVM exits
         Runtime.getRuntime().addShutdownHook(new Thread(DatabaseManager::closeConnection));
 
-        // 3. Launch GUI on the Event Dispatch Thread (Swing best practice)
+        // 3. Set the language of the Application to ENGLISH
+        Locale.setDefault(Locale.ENGLISH);
+        JOptionPane.setDefaultLocale(Locale.ENGLISH);
+
+        // 4. Launch GUI on the Event Dispatch Thread (Swing best practice)
         SwingUtilities.invokeLater(WelcomePage::login);
+
     }
 }
