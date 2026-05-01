@@ -15,17 +15,21 @@ import java.awt.*;
  */
 public class WelcomePage {
 
+    // DAO instances shared across all methods in this class, created once at class load
     private static final PatientDAO  patientDAO  = new PatientDAO();
     private static final EmployeeDAO employeeDAO = new EmployeeDAO();
 
     // ── LOGIN ─────────────────────────────────────────────────────────────────
 
     public static void login() {
+
+        // Main Page
         JFrame frame = new JFrame("Project 3 – Dental Reservation");
         frame.setSize(420, 480);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
+        frame.setLocationRelativeTo(null); // center the page
 
+        // Add panel to the main page
         JPanel panel = new JPanel(null);
         frame.add(panel);
 
@@ -73,7 +77,7 @@ public class WelcomePage {
         panel.add(btnLogin);
         panel.add(btnRegister);
 
-        // Authors Button
+        // Authors Button (Added at 2026-04-30)
         JButton btnAuthors = new JButton("See Creators");
         btnAuthors.setBounds( 130, 400, 160, 20);
         btnAuthors.addActionListener(e -> {
