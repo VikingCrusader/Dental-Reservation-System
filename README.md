@@ -144,3 +144,7 @@ CREATE TABLE appointments (
 | Architecture | Logic mixed into GUI | Model / DAO / GUI layers separated |
 | IDE setup | Eclipse + manual JAR | IntelliJ + Maven (auto-download) |
 | Data inspection | `System.out.println` | DataGrip with live SQL queries |
+
+## 🔧 Patch Notes
+2026-04-30 Add "See Creators" Function to the Application.
+
