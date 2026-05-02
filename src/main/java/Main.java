@@ -22,7 +22,7 @@ public class Main {
         // 1. Set up DB — safe to call multiple times (CREATE TABLE IF NOT EXISTS)
         DatabaseManager.initializeDatabase();
 
-        // 2. Close DB connection when wthe JVM exits
+        // 2. Close DB connection when the JVM exits
         Runtime.getRuntime().addShutdownHook(new Thread(DatabaseManager::closeConnection));
 
         // 3. Set the language of the Application to ENGLISH

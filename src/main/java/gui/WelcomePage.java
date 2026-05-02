@@ -19,6 +19,11 @@ public class WelcomePage {
     private static final PatientDAO  patientDAO  = new PatientDAO();
     private static final EmployeeDAO employeeDAO = new EmployeeDAO();
 
+    // "fromLogin" : Flag indicating the caller of registration():
+    // fromLogin  → opened from the Login page   (Go Back / success → return to login)
+    // !fromLogin → opened from EmployeeMenu     (Go Back → employee menu reopens itself; success → open CalendarView)
+    private static boolean fromLogin;
+
     // ── LOGIN ─────────────────────────────────────────────────────────────────
 
     public static void login() {
@@ -116,9 +121,11 @@ public class WelcomePage {
 
         // ── Login logic ───────────────────────────────────────────────────────
         btnLogin.addActionListener(e -> {
+            // get username and password from TextField and PasswordField from the main page GUI
             String username = txtUser.getText().trim();
             String password = new String(txtPass.getPassword());
 
+            // non-empty verification
             if (username.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(frame,
                         "Please enter username and password.",
@@ -127,11 +134,12 @@ public class WelcomePage {
             }
 
             // 1. Check employees
+            // Access the DB, using the method "getEmployeeByUsername()" to iterate the Employee's Username DB.
             Employee emp = employeeDAO.getEmployeeByUsername(username);
             if (emp != null) {
                 if (emp.getPassword().equals(password)) {
-                    frame.dispose();
-                    new EmployeeMenu(emp);
+                    frame.dispose(); //if match, then close the window
+                    new EmployeeMenu(emp); // and then open employee menu
                 } else {
                     JOptionPane.showMessageDialog(frame,
                             "Incorrect password.", "Login Error",
@@ -140,7 +148,7 @@ public class WelcomePage {
                 return;
             }
 
-            // 2. Check patients
+            // 2. Check patients, same logic as employees
             Patient pat = patientDAO.getPatientByUsername(username);
             if (pat != null) {
                 if (pat.getPassword().equals(password)) {
@@ -166,6 +174,7 @@ public class WelcomePage {
             registration(true);
         });
 
+        // After all components added done, set the panel visible
         frame.setVisible(true);
     }
 
@@ -178,8 +187,9 @@ public class WelcomePage {
      *                  false → called from EmployeeMenu (back goes to employee menu)
      */
     public static void registration(boolean fromLogin) {
+        WelcomePage.fromLogin = fromLogin;
         JFrame frame = new JFrame("Register New Patient");
-        frame.setSize(420, 360);                         // 紧凑一些
+        frame.setSize(420, 360);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
@@ -191,28 +201,32 @@ public class WelcomePage {
 
         for (int i = 0; i < labelTexts.length; i++) {
             JLabel lbl = new JLabel(labelTexts[i]);
-            lbl.setBounds(40, 20 + i * 40, 110, 25);    // 行间距40，左边距40
+            lbl.setBounds(40, 20 + i * 40, 110, 25); // make sure equal longitudinal spacing
             panel.add(lbl);
 
             // Password field for index 2
-            fields[i] = (i == 2) ? new JPasswordField() : new JTextField();
+            fields[i] = (i == 2) ? new JPasswordField() : new JTextField(); // if it's pwd field, apply pwd format
             fields[i].setBounds(155, 20 + i * 40, 220, 26);
             panel.add(fields[i]);
         }
 
+        // define back button
         JButton btnBack = new JButton("Go Back");
         btnBack.setBounds(70, 268, 120, 32);
         panel.add(btnBack);
 
+        // define register button
         JButton btnReg = new JButton("Register");
         btnReg.setBounds(230, 268, 120, 32);
         panel.add(btnReg);
 
-        // ── Go Back ───────────────────────────────────────────────────────────
+        // add back listener
         btnBack.addActionListener(e -> {
             frame.dispose();
             if (fromLogin) login();
-            // if !fromLogin the EmployeeMenu that opened us will reopen itself
+            // Because there are two origins to open the registration menu, so we need a branch statement.
+            // if fromLogin == true, reopen Login() panel.
+            // if !fromLogin the EmployeeMenu that opened us will reopen itself.
         });
 
         // ── Register ──────────────────────────────────────────────────────────
@@ -221,6 +235,7 @@ public class WelcomePage {
             String uname = fields[1].getText().trim();
             String pass  = fields[2].getText().trim();   // JPasswordField.getText() is fine here
 
+            // check non-empty key values.
             if (name.isEmpty() || uname.isEmpty() || pass.isEmpty()) {
                 JOptionPane.showMessageDialog(frame,
                         "Name, Username and Password are required.",
@@ -228,6 +243,7 @@ public class WelcomePage {
                 return;
             }
 
+            // check repeat
             if (patientDAO.getPatientByUsername(uname) != null) {
                 JOptionPane.showMessageDialog(frame,
                         "Username \"" + uname + "\" is already taken.",
@@ -235,21 +251,24 @@ public class WelcomePage {
                 return;
             }
 
+            // Generate new patient object using registered attributes
             Patient p = new Patient(name, uname, pass,
                     fields[3].getText().trim(),
                     fields[4].getText().trim(),
                     fields[5].getText().trim());
 
             int newId = patientDAO.addPatient(p);
+            // if the new patient is successfully created, the return patientDAO.addPatient() will be the new ID of the patient, which is positive, otherwise it's -1.
             if (newId > 0) {
                 JOptionPane.showMessageDialog(frame,
                         "Account created! You can now log in.",
                         "Success", JOptionPane.INFORMATION_MESSAGE);
                 frame.dispose();
                 if (fromLogin) {
+                    // Patients registered him/herself via main menu → login page
                     login();
                 } else {
-                    // Employee registered a new patient → go straight to booking
+                    // Employee registered a new patient → go straight to booking in the calender page
                     new CalendarView(p, new AppointmentDAO(), true);
                 }
             } else {
@@ -259,6 +278,7 @@ public class WelcomePage {
             }
         });
 
+        // After all components added done, set the panel visible
         frame.setVisible(true);
     }
 }
