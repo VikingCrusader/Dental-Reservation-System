@@ -145,6 +145,13 @@ CREATE TABLE appointments (
 | IDE setup | Eclipse + manual JAR | IntelliJ + Maven (auto-download) |
 | Data inspection | `System.out.println` | DataGrip with live SQL queries |
 
+## 📓 TO-DOs
+Login
+1. add password format requirements.
+Patient-Book Appointment
+1. time slot, booked appointments should be red from other patient's pov
+2. should make the calender visually more convenient, (make a real calender to select date).
+
 ## 🔧 Patch Notes
 2026-04-30 Add "See Creators" Function to the Application.
 
