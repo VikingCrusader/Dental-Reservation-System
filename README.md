@@ -148,7 +148,9 @@ CREATE TABLE appointments (
 ## 📓 TO-DOs
 Login
 1. add password format requirements.
+<br>
 Patient-Book Appointment
+<br>
 1. time slot, booked appointments should be red from other patient's pov
 2. should make the calender visually more convenient, (make a real calender to select date).
 3. "show slots" button no response.
