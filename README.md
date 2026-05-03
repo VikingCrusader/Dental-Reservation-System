@@ -1,52 +1,57 @@
-# 🦷 Dental Reservation System — IntelliJ IDEA + DataGrip Edition
+# Dental Reservation System (IntelliJ IDEA + DataGrip)
 
-Rebuilt from Prof. Kouatly's Working Group 3.
-Storage replaced: `ArrayList` in memory → **SQLite database** (`dental.db`).
+Rebuilt from **Prof. Kouatly's Working Group 3**.
 
----
-
-## ✅ Open in IntelliJ IDEA (3 steps)
-
-### Step 1 — Open the project
-```
-File → Open → select the "DentalSystemMaven" folder
-```
-IntelliJ detects `pom.xml` automatically and asks:
-> "Maven build scripts found. Load?"
-
-Click **Load** (or Trust Project if prompted).
-
-### Step 2 — Let Maven download dependencies
-Look for the Maven tool window (right side bar) or the notification at the bottom.
-IntelliJ downloads `sqlite-jdbc` automatically from Maven Central.
-
-> ⚠️ You need internet access the first time. After that it's cached locally.
-
-### Step 3 — Run the app
-Open `src/main/java/Main.java` → click the green ▶ button next to `main()`.
-
-`dental.db` is created in your **project root** on first launch.
+**Storage upgrade:** `ArrayList` (in-memory) → **SQLite database** (`dental.db`)
 
 ---
 
-## 🗄️ Connect DataGrip to dental.db
+## Open in IntelliJ IDEA (3 steps)
 
-1. Open DataGrip
-2. **+ → Data Source → SQLite**
-3. In the "File" field: click the folder icon → navigate to your project folder → select `dental.db`
-4. Click **Test Connection** (DataGrip may offer to download the SQLite driver → accept)
+### 1) Open the project
+- **IntelliJ IDEA →** `File` → `Open`
+- Select the **`DentalSystemMaven`** folder
+
+IntelliJ will detect `pom.xml` and prompt:
+
+> “Maven build scripts found. Load?”
+
+Click **Load** (and **Trust Project** if prompted).
+
+### 2) Let Maven download dependencies
+- Open the **Maven** tool window (right sidebar) or check the notification at the bottom.
+- IntelliJ will download `sqlite-jdbc` automatically from Maven Central.
+
+> **Note:** Internet access is needed the first time. After that, dependencies are cached locally.
+
+### 3) Run the app
+- Open: `src/main/java/Main.java`
+- Click the green **▶** next to `main()`
+
+On first launch, **`dental.db`** will be created in the **project root**.
+
+---
+
+## Connect DataGrip to `dental.db`
+
+1. Open **DataGrip**
+2. Click **+** → **Data Source** → **SQLite**
+3. In **File**: click the folder icon → select your project’s **`dental.db`**
+4. Click **Test Connection**  
+   (DataGrip may offer to download the SQLite driver — accept)
 5. Click **OK**
 
-You can now browse, query, and edit data live while the app is running.
+You can now browse, query, and edit the database while the app runs.
 
-### Useful queries to try in DataGrip:
+### Useful SQL queries
+
 ```sql
 -- See all patients
 SELECT * FROM patients;
 
 -- See all appointments with patient names (JOIN)
 SELECT a.id,
-       p.name        AS patient,
+       p.name AS patient,
        a.date_time
 FROM   appointments a
 JOIN   patients p ON p.id = a.patient_id
@@ -65,20 +70,20 @@ DELETE FROM appointments WHERE id = 3;
 
 ---
 
-## 🔑 Default Login Credentials
+## Default Login Credentials
 
 | Role    | Username | Password |
 |---------|----------|----------|
 | Dentist | djohn    | 12345    |
 | Dentist | Sami     | 54321    |
 
-Patient accounts are created via **"Create Account"** on the login screen.
+**Patient accounts** are created via **“Create Account”** on the login screen.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
-```
+```text
 DentalSystemMaven/
 ├── pom.xml                              ← Maven config (sqlite-jdbc dependency here)
 └── src/main/java/
@@ -101,7 +106,7 @@ DentalSystemMaven/
 
 ---
 
-## 🗃️ Database Schema
+## Database Schema
 
 ```sql
 CREATE TABLE patients (
@@ -134,9 +139,9 @@ CREATE TABLE appointments (
 
 ---
 
-## 🔄 Differences from Teacher's Version
+## Differences from the Teacher’s Version
 
-| Feature | Teacher's version | This version |
+| Feature | Teacher’s version | This version |
 |---|---|---|
 | Storage | `ArrayList` in RAM | SQLite file (`dental.db`) |
 | Persistence | Lost on exit | Survives restarts |
@@ -145,6 +150,21 @@ CREATE TABLE appointments (
 | IDE setup | Eclipse + manual JAR | IntelliJ + Maven (auto-download) |
 | Data inspection | `System.out.println` | DataGrip with live SQL queries |
 
-## 🔧 Patch Notes
-2026-04-30 Add "See Creators" Function to the Application.
+---
 
+## TO-DOs
+
+### Login
+1. Add password format requirements.
+
+### Patient → Book Appointment
+1. Time slots: booked appointments should appear **red** from other patients’ point of view.
+2. Improve calendar UI (use a real calendar date picker).
+3. “Show slots” button has no response.
+4. Prevent selecting previous dates.
+
+---
+
+## Patch Notes
+
+- **2026-04-30:** Added **“See Creators”** function to the application.
