@@ -15,7 +15,9 @@ public class Patient {
     private String telephone;
 
     // ── Constructors ──────────────────────────────────────────────────────────
+    /** Method overloading is used here: methods (constructors) with the same name can have different parameters when passed in. */
 
+    /** Used when a blank Patient object is needed before values are assigned. */
     public Patient() {}
 
     /** Used when creating a new patient (id not yet assigned by DB). */
@@ -36,7 +38,7 @@ public class Patient {
         this.id = id;
     }
 
-    // ── Getters & Setters ─────────────────────────────────────────────────────
+    // ── Encapsulation : Getters & Setters ─────────────────────────────────────────────────────
 
     public int    getId()        { return id; }
     public void   setId(int id)  { this.id = id; }
