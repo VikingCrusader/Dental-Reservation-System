@@ -151,7 +151,9 @@ Login
 Patient-Book Appointment
 1. time slot, booked appointments should be red from other patient's pov
 2. should make the calender visually more convenient, (make a real calender to select date).
-
+3. "show slots" button no response.
+4. should not be able to select previous dates.
+   
 ## 🔧 Patch Notes
 2026-04-30 Add "See Creators" Function to the Application.
 
