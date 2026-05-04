@@ -1,34 +1,13 @@
 package database;
+import java.sql.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-/**
- * Manages the single SQLite connection for the entire application.
- *
- * SQLite stores everything in ONE file (dental.db) — no server to install.
- * In DataGrip you can connect to this file directly and browse/edit data live.
- *
- * Connection URL format:  jdbc:sqlite:<path-to-file>
- * Using a relative path means dental.db is created in the working directory
- * (the project root when you run from IntelliJ).
- */
 public class DatabaseManager {
 
     private static final String DB_URL = "jdbc:sqlite:dental.db";
-
-    // Singleton connection — one connection shared by all DAO classes
     private static Connection connection;
 
     // ── Connection ────────────────────────────────────────────────────────────
 
-    /**
-     * Returns the open connection, creating it on first call.
-     * Thread-safety is not a concern here (single-user Swing app).
-     */
     public static Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             try {
