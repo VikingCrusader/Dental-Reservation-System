@@ -25,15 +25,12 @@ public class DatabaseManager {
             }
             System.out.println("[DB] Connected → dental.db");
         }
-        return connection;
+        return connection; //This connection is the 'bridge' between Java code and SQL, SQL statements can be sent to SQL via this connection.
     }
 
     // ── Schema initialisation ─────────────────────────────────────────────────
 
-    /**
-     * Creates all tables (if they don't exist yet) and seeds default employees.
-     * Safe to call every time the app starts.
-     */
+    /** Create Tables */
     public static void initializeDatabase() {
         try (Statement stmt = getConnection().createStatement()) {
 
@@ -84,7 +81,7 @@ public class DatabaseManager {
         }
     }
 
-    /** Inserts two default dentist accounts if the employees table is empty. */
+    /** Inserts two default dentist accounts if the employees table is empty, for testing */
     private static void seedEmployees(Statement stmt) throws SQLException {
         ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS n FROM employees");
         if (rs.next() && rs.getInt("n") == 0) {
