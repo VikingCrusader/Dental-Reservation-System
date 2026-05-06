@@ -72,6 +72,7 @@ public class DatabaseManager {
 
             // Seed default employees only on very first run
             seedEmployees(stmt);
+            seedPatients(stmt);
 
             System.out.println("[DB] Schema ready.");
 
@@ -81,7 +82,7 @@ public class DatabaseManager {
         }
     }
 
-    /** Inserts two default dentist accounts if the employees table is empty, for testing */
+    /** Inserts two default dentist accounts (if employees DB is empty)*/
     private static void seedEmployees(Statement stmt) throws SQLException {
         ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS n FROM employees");
         if (rs.next() && rs.getInt("n") == 0) {
@@ -91,6 +92,20 @@ public class DatabaseManager {
                     ('Sam Alton', 'Sami',  '54321', 'dentist')
             """);
             System.out.println("[DB] Default employees seeded.");
+        }
+    }
+
+    /** Inserts three default patient accounts (if patients DB is empty)*/
+    private static void seedPatients(Statement stmt ) throws SQLException {
+        ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS n FROM patients");
+        if (rs.next() && rs.getInt("n") == 0) {
+            stmt.execute("""
+                INSERT INTO patients (name, username, password, email, address, telephone) VALUES
+                    ('Xiaoxiao Lin', 'lxx2002', '020712Xiao!','lxx@gmail.com','Prague','+420 778913400'),
+                    ('Florian Hofmann', 'hofmann', 'ichbinHofmann##DE', 'hofmann@hotmail.com','Frankfurt', '+49 582736400'),
+                    ('An Lee','leean1991','LeeAN1991***','leean1991@outlook.com', 'Taipei', '+886 139267893')
+            """);
+            System.out.println("[DB] Default patients seeded.");
         }
     }
 

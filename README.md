@@ -162,9 +162,16 @@ CREATE TABLE appointments (
 2. Improve calendar UI (use a real calendar date picker).
 3. “Show slots” button has no response.
 4. Prevent selecting previous dates.
+5. Add categories of appointments, such as "clinic service","operation" etc
+
+### Data Model
+1. Add genders of users.
 
 ---
 
 ## Patch Notes
-
-- **2026-04-30:** Added **“See Creators”** function to the application.
+- **2026-04-26:** Initial Commit. Rewrite and improve the project that was started in August 2025 during the TU Berlin Summer School.
+- **2026-04-30:** Added “See Creators” function to the application.
+- **2026-05-02:** Main Page(Welcome and Login) done.
+- **2026-05-06:** JDBC done.
+- **2026-05-06:** JDBC and database setup done.
