@@ -5,16 +5,6 @@ import model.Patient;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Data Access Object — all SQL for the "patients" table.
- *
- * Pattern used: PreparedStatement with ? placeholders.
- * This prevents SQL injection and handles special characters in strings.
- *
- * You can verify results live in DataGrip:
- *   File → New → Data Source → SQLite → choose dental.db
- */
 public class PatientDAO {
 
     // ── CREATE ────────────────────────────────────────────────────────────────
@@ -22,29 +12,29 @@ public class PatientDAO {
     /**
      * Inserts a new patient row.
      * Sets patient.id to the auto-generated primary key.
-     *
-     * @return the new id, or -1 on failure (e.g. duplicate username)
+     * return the new id, or -1 on failure (e.g. duplicate username)
      */
     public int addPatient(Patient patient) {
         String sql = """
             INSERT INTO patients (name, username, password, email, address, telephone)
             VALUES (?, ?, ?, ?, ?, ?)
-        """;
+        """; //"?" are place holders
 
         try (PreparedStatement ps = DatabaseManager.getConnection()
-                .prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                .prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) { //.prepareStatement(): The SQL statement is sent to the database for compilation in advance, ready but not yet executed.
 
+            // DB received SQL, check syntax, compiled, waiting for parameters.
             ps.setString(1, patient.getName());
             ps.setString(2, patient.getUsername());
             ps.setString(3, patient.getPassword());
             ps.setString(4, patient.getEmail());
             ps.setString(5, patient.getAddress());
-            ps.setString(6, patient.getTelephone());
-            ps.executeUpdate();
+            ps.setString(6, patient.getTelephone()); // fill in the placeholders
+            ps.executeUpdate(); // now execute
 
-            ResultSet keys = ps.getGeneratedKeys();
-            if (keys.next()) {
-                int newId = keys.getInt(1);
+            ResultSet keys = ps.getGeneratedKeys(); //the "keys" here's datatype is "ResultSet", its like a container, not int, we need to convert it to int to return.
+            if (keys.next()) { // open the container, move to the first line using .next(), default point to the place before the first line.
+                int newId = keys.getInt(1);  // get the integer type value of the first column(id generated).
                 patient.setId(newId);   // update the object too
                 return newId;
             }
