@@ -167,6 +167,8 @@ CREATE TABLE appointments (
 ### Data Model
 1. Add genders of users.
 
+### Database
+1. Use postgreSQL or mySQL instead of SQLite in the future.
 ---
 
 ## Patch Notes
