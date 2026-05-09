@@ -52,9 +52,7 @@ public class PatientDAO {
         List<Patient> list = new ArrayList<>();
         String sql = "SELECT * FROM patients ORDER BY name";
 
-        try (Statement stmt = DatabaseManager.getConnection().createStatement();
-             ResultSet rs   = stmt.executeQuery(sql)) {
-
+        try (ResultSet rs = DatabaseManager.getConnection().createStatement().executeQuery(sql)){
             while (rs.next()) list.add(mapRow(rs));
 
         } catch (SQLException e) {
@@ -70,7 +68,7 @@ public class PatientDAO {
     public Patient getPatientByUsername(String username) {
         String sql = "SELECT * FROM patients WHERE username = ?";
 
-        try (PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(sql)) { //if there's a variable/placeholder "?" in SQL, use prepareStatement() instead of executeQuery()
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return mapRow(rs);
