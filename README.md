@@ -177,3 +177,4 @@ CREATE TABLE appointments (
 - **2026-05-02:** Main Page(Welcome and Login) done.
 - **2026-05-06:** JDBC done.
 - **2026-05-06:** JDBC and database setup done.
+- **2026-05-10:** PatientDAO CRUD finished
