@@ -63,7 +63,7 @@ public class PatientDAO {
 
     /**
      * Finds a patient by username — used for login authentication.
-     * @return Patient object, or null if not found.
+     * return Patient object, or null if not found.
      */
     public Patient getPatientByUsername(String username) {
         String sql = "SELECT * FROM patients WHERE username = ?";
@@ -96,7 +96,7 @@ public class PatientDAO {
 
     // ── UPDATE ────────────────────────────────────────────────────────────────
 
-    /** Updates all editable fields. Username cannot be changed (it's the login key). */
+    /** Updates all attributes of a patient */
     public boolean updatePatient(Patient patient) {
         String sql = """
             UPDATE patients
@@ -123,7 +123,6 @@ public class PatientDAO {
 
     /**
      * Deletes a patient by id.
-     * CASCADE in the schema also deletes all their appointments automatically.
      */
     public boolean deletePatient(int patientId) {
         String sql = "DELETE FROM patients WHERE id = ?";
@@ -138,7 +137,7 @@ public class PatientDAO {
         return false;
     }
 
-    // ── Helper ────────────────────────────────────────────────────────────────
+    // ── Converter ────────────────────────────────────────────────────────────────
 
     /** Converts one ResultSet row → Patient object. */
     private Patient mapRow(ResultSet rs) throws SQLException {
