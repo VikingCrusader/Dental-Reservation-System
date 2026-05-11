@@ -57,10 +57,6 @@ public class EmployeeDAO {
         return list;
     }
 
-    /**
-     * Finds an employee by username — used for login.
-     * @return Employee object, or null if not found.
-     */
     public Employee getEmployeeByUsername(String username) {
         String sql = "SELECT * FROM employees WHERE username = ?";
 
@@ -75,7 +71,7 @@ public class EmployeeDAO {
         return null;
     }
 
-    // ── Helper ────────────────────────────────────────────────────────────────
+    // ── Converter ────────────────────────────────────────────────────────────────
 
     private Employee mapRow(ResultSet rs) throws SQLException {
         return new Employee(
