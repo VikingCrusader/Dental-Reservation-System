@@ -172,7 +172,8 @@ CREATE TABLE appointments (
 ---
 
 ## Patch Notes
-- **2026-04-26:** Initial Commit. Rewrite and improve the project that was started in August 2025 during the TU Berlin Summer School.
+- **2025-08-07:** Finished the initial version, without using Database, using List instead.
+- **2026-04-26:** Initial Commit. Rewrite and improve the project.
 - **2026-04-30:** Added “See Creators” function to the application.
 - **2026-05-02:** Main Page(Welcome and Login) done.
 - **2026-05-06:** JDBC done.
