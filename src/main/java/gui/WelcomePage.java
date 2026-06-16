@@ -15,13 +15,13 @@ import java.awt.*;
  */
 public class WelcomePage {
 
-    // DAO instances shared across all methods in this class, created once at class load
+    // DAO created once at class load
     private static final PatientDAO  patientDAO  = new PatientDAO();
     private static final EmployeeDAO employeeDAO = new EmployeeDAO();
 
     // "fromLogin" : Flag indicating the caller of registration():
-    // fromLogin  → opened from the Login page   (Go Back / success → return to login)
-    // !fromLogin → opened from EmployeeMenu     (Go Back → employee menu reopens itself; success → open CalendarView)
+    // fromLogin  → opened from the Login page   (A Patient register him/herself: Go Back / success → return to login)
+    // !fromLogin → opened from EmployeeMenu     (An Employee register a Patient: Go Back → employee menu reopens itself; success → open CalendarView)
     private static boolean fromLogin;
 
     // ── LOGIN ─────────────────────────────────────────────────────────────────
