@@ -56,7 +56,7 @@ public class PatientMenu {
     private void handle(int action, JFrame frame) {
         switch (action) {
             case 0 -> showMyAppointments(frame);
-            case 1 -> { frame.dispose(); new CalendarView(patient, apptDAO, false); }
+            case 1 -> { frame.dispose(); new CalendarView(patient, apptDAO, false); } //open calendar to make a new appointment
             case 2 -> showCancelScreen(frame);
             case 3 -> { frame.dispose(); WelcomePage.login(); }
         }
@@ -115,6 +115,9 @@ public class PatientMenu {
         } else {
             JPanel btnPanel = new JPanel();
             btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.Y_AXIS));
+            /**
+             * Every Appt is a button
+             */
             for (Appointment a : list) {
                 String label = a.getDateTime().toLocalDate()
                         + "  at " + String.format("%02d:00", a.getDateTime().getHour());
