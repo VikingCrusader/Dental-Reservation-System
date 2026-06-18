@@ -158,11 +158,10 @@ CREATE TABLE appointments (
 1. Add password format requirements.
 
 ### Patient → Book Appointment
-1. Time slots: booked appointments should appear **red** from other patients’ point of view.
-2. Improve calendar UI (use a real calendar date picker).
-3. “Show slots” button has no response.
-4. Prevent selecting previous dates.
-5. Add categories of appointments, such as "clinic service","operation" etc
+1. Time slots: booked appointments should appear **red** from other patients’ point of view.（finished:2026-06-18)
+2. Improve calendar UI (use a real calendar date picker).(finished:2026-06-18)
+3. Prevent selecting previous dates.(finished:2026-06-18)
+4. Add categories of appointments, such as "clinic service","operation" etc
 
 ### Data Model
 1. Add genders of users.
@@ -179,3 +178,4 @@ CREATE TABLE appointments (
 - **2026-05-06:** JDBC done.
 - **2026-05-06:** JDBC and database setup done.
 - **2026-05-10:** PatientDAO CRUD finished
+- **2026-06-18:** Refactor CalendarView: Replace JSpinner with custom Swing calendar grid; Disable weekends and CZ public holidays; Color-code days by booking availability (green/orange/red); Fix stale date bug from JSpinner.
