@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 /**
- * Dashboard shown after an employee (dentist / staff) logs in.
+ * Dashboard shown after an employee (dentist / staff) logs in
  */
 public class EmployeeMenu {
 
