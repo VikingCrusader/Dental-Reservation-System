@@ -4,6 +4,8 @@ Rebuilt from **Prof. Kouatly's Working Group 3**.
 
 **Storage upgrade:** `ArrayList` (in-memory) → **SQLite database** (`dental.db`)
 
+**Security upgrade:** Plaintext passwords → **BCrypt hashed** (`jbcrypt 0.4`)
+
 ---
 
 ## Open in IntelliJ IDEA (3 steps)
@@ -20,7 +22,7 @@ Click **Load** (and **Trust Project** if prompted).
 
 ### 2) Let Maven download dependencies
 - Open the **Maven** tool window (right sidebar) or check the notification at the bottom.
-- IntelliJ will download `sqlite-jdbc` automatically from Maven Central.
+- IntelliJ will download `sqlite-jdbc` and `jbcrypt` automatically from Maven Central.
 
 > **Note:** Internet access is needed the first time. After that, dependencies are cached locally.
 
@@ -77,7 +79,11 @@ DELETE FROM appointments WHERE id = 3;
 | Dentist | djohn    | 12345    |
 | Dentist | Sami     | 54321    |
 
-**Patient accounts** are created via **“Create Account”** on the login screen.
+> **Note:** Passwords are stored as BCrypt hashes in the database. The values above are what you type at the login screen.
+
+**Patient accounts** are created via **”Create Account”** on the login screen.
+
+> **Upgrading from an older version?** Delete `dental.db` before first launch so the seed accounts are recreated with hashed passwords. The file will be regenerated automatically.
 
 ---
 
@@ -85,7 +91,7 @@ DELETE FROM appointments WHERE id = 3;
 
 ```text
 DentalSystemMaven/
-├── pom.xml                              ← Maven config (sqlite-jdbc dependency here)
+├── pom.xml                              ← Maven config (sqlite-jdbc, jbcrypt dependencies)
 └── src/main/java/
     ├── Main.java                        ← Entry point
     ├── model/
@@ -149,6 +155,7 @@ CREATE TABLE appointments (
 | Architecture | Logic mixed into GUI | Model / DAO / GUI layers separated |
 | IDE setup | Eclipse + manual JAR | IntelliJ + Maven (auto-download) |
 | Data inspection | `System.out.println` | DataGrip with live SQL queries |
+| Password storage | Plaintext | BCrypt hashed (cost factor 10) |
 
 ---
 
@@ -179,3 +186,4 @@ CREATE TABLE appointments (
 - **2026-05-06:** JDBC and database setup done.
 - **2026-05-10:** PatientDAO CRUD finished
 - **2026-06-18:** Refactor CalendarView: Replace JSpinner with custom Swing calendar grid; Disable weekends and CZ public holidays; Color-code days by booking availability (green/orange/red); Fix stale date bug from JSpinner.
+- **2026-06-27:** Security: Replace plaintext password storage with BCrypt hashing (jbcrypt 0.4); seed accounts and new registrations now store hashed passwords.

@@ -5,6 +5,7 @@ import database.EmployeeDAO;
 import database.PatientDAO;
 import model.Employee;
 import model.Patient;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.swing.*;
 import java.awt.*;
@@ -137,7 +138,7 @@ public class WelcomePage {
             // Access the DB, using the method "getEmployeeByUsername()" to iterate the Employee's Username DB.
             Employee emp = employeeDAO.getEmployeeByUsername(username);
             if (emp != null) {
-                if (emp.getPassword().equals(password)) {
+                if (BCrypt.checkpw(password, emp.getPassword())) {
                     frame.dispose(); //if match, then close the window
                     new EmployeeMenu(emp); // and then open employee menu
                 } else {
@@ -151,7 +152,7 @@ public class WelcomePage {
             // 2. Check patients, same logic as employees
             Patient pat = patientDAO.getPatientByUsername(username);
             if (pat != null) {
-                if (pat.getPassword().equals(password)) {
+                if (BCrypt.checkpw(password, pat.getPassword())) {
                     frame.dispose();
                     new PatientMenu(pat);
                 } else {
@@ -252,7 +253,8 @@ public class WelcomePage {
             }
 
             // Generate new patient object using registered attributes
-            Patient p = new Patient(name, uname, pass,
+            String hashedPass = BCrypt.hashpw(pass, BCrypt.gensalt());
+            Patient p = new Patient(name, uname, hashedPass,
                     fields[3].getText().trim(),
                     fields[4].getText().trim(),
                     fields[5].getText().trim());

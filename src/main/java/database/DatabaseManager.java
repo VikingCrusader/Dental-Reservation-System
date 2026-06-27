@@ -1,4 +1,5 @@
 package database;
+import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;
 
 public class DatabaseManager {
@@ -86,25 +87,45 @@ public class DatabaseManager {
     private static void seedEmployees(Statement stmt) throws SQLException {
         ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS n FROM employees");
         if (rs.next() && rs.getInt("n") == 0) {
-            stmt.execute("""
-                INSERT INTO employees (name, username, password, role) VALUES
-                    ('John Dow',  'djohn', '12345', 'dentist'),
-                    ('Sam Alton', 'Sami',  '54321', 'dentist')
-            """);
+            String sql = "INSERT INTO employees (name, username, password, role) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+                String[][] data = {
+                    {"John Dow",  "djohn", "12345",  "dentist"},
+                    {"Sam Alton", "Sami",  "54321",  "dentist"}
+                };
+                for (String[] row : data) {
+                    ps.setString(1, row[0]);
+                    ps.setString(2, row[1]);
+                    ps.setString(3, BCrypt.hashpw(row[2], BCrypt.gensalt()));
+                    ps.setString(4, row[3]);
+                    ps.executeUpdate();
+                }
+            }
             System.out.println("[DB] Default employees seeded.");
         }
     }
 
     /** Inserts three default patient accounts (if patients DB is empty)*/
-    private static void seedPatients(Statement stmt ) throws SQLException {
+    private static void seedPatients(Statement stmt) throws SQLException {
         ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS n FROM patients");
         if (rs.next() && rs.getInt("n") == 0) {
-            stmt.execute("""
-                INSERT INTO patients (name, username, password, email, address, telephone) VALUES
-                    ('Xiaoxiao Lin', 'lxx2002', '020712Xiao!','lxx@gmail.com','Prague','+420 778913400'),
-                    ('Florian Hofmann', 'hofmann', 'ichbinHofmann##DE', 'hofmann@hotmail.com','Frankfurt', '+49 582736400'),
-                    ('An Lee','leean1991','LeeAN1991***','leean1991@outlook.com', 'Taipei', '+886 139267893')
-            """);
+            String sql = "INSERT INTO patients (name, username, password, email, address, telephone) VALUES (?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+                String[][] data = {
+                    {"Xiaoxiao Lin",    "lxx2002",   "020712Xiao!",      "lxx@gmail.com",         "Prague",    "+420 778913400"},
+                    {"Florian Hofmann", "hofmann",   "ichbinHofmann##DE","hofmann@hotmail.com",   "Frankfurt", "+49 582736400"},
+                    {"An Lee",          "leean1991", "LeeAN1991***",      "leean1991@outlook.com", "Taipei",    "+886 139267893"}
+                };
+                for (String[] row : data) {
+                    ps.setString(1, row[0]);
+                    ps.setString(2, row[1]);
+                    ps.setString(3, BCrypt.hashpw(row[2], BCrypt.gensalt()));
+                    ps.setString(4, row[3]);
+                    ps.setString(5, row[4]);
+                    ps.setString(6, row[5]);
+                    ps.executeUpdate();
+                }
+            }
             System.out.println("[DB] Default patients seeded.");
         }
     }
