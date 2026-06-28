@@ -30,6 +30,10 @@ public class AppointmentDAO {
      * @return true on success, false if the slot is already taken.
      */
     public boolean addAppointment(Patient patient, LocalDateTime dateTime) {
+        if (dateTime.isBefore(LocalDateTime.now())) {
+            System.out.println("[AppointmentDAO] Refused past date: " + dateTime);
+            return false;
+        }
         if (isSlotTaken(dateTime)) {
             System.out.println("[AppointmentDAO] Slot taken: " + dateTime);
             return false;

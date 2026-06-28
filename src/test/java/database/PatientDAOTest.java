@@ -4,6 +4,7 @@ import model.Patient;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -63,5 +64,17 @@ class PatientDAOTest {
         int result = patientDAO.addPatient(new Patient("Other Alice", "alice99", "other_pw", "", "", ""));
 
         assertEquals(-1, result);
+    }
+
+    @Test
+    void storedPasswordHashMatchesPlainTextUsingBCrypt() {
+        String plainText = "SecurePass123!";
+        String hashed = BCrypt.hashpw(plainText, BCrypt.gensalt());
+        patientDAO.addPatient(new Patient("Bob", "bob42", hashed, "", "", ""));
+
+        Patient retrieved = patientDAO.getPatientByUsername("bob42");
+
+        assertNotNull(retrieved);
+        assertTrue(BCrypt.checkpw(plainText, retrieved.getPassword()));
     }
 }
