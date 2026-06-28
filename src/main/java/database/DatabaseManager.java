@@ -133,6 +133,13 @@ public class DatabaseManager {
         }
     }
 
+    // ── Testing support ───────────────────────────────────────────────────────
+
+    /** Replaces the active connection. Used by tests to inject an in-memory SQLite DB. */
+    public static void setConnection(Connection conn) {
+        connection = conn;
+    }
+
     // ── Cleanup ───────────────────────────────────────────────────────────────
 
     /** Closes the connection. Called automatically via shutdown hook in Main. */

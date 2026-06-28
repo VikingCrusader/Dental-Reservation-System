@@ -31,10 +31,25 @@
             <version>0.4</version>
         </dependency>
 
+        <!-- JUnit 5 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.3</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
+            <!-- JUnit 5 requires Surefire 3.x -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+
             <!-- Package as a runnable JAR with all dependencies bundled -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
