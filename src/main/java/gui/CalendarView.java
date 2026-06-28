@@ -1,6 +1,7 @@
 package gui;
 
 import database.AppointmentDAO;
+import model.Employee;
 import model.Patient;
 
 import javax.swing.*;
@@ -52,6 +53,7 @@ public class CalendarView {
     private final Patient        patient;
     private final AppointmentDAO apptDAO;
     private final boolean        isEmployee;
+    private final Employee       employee;   // non-null when opened by an employee
 
     private JFrame    frame;
     private JPanel    calendarPanel;
@@ -63,10 +65,11 @@ public class CalendarView {
 
     // ── Constructor ───────────────────────────────────────────────────────────
 
-    public CalendarView(Patient patient, AppointmentDAO apptDAO, boolean isEmployee) {
+    public CalendarView(Patient patient, AppointmentDAO apptDAO, boolean isEmployee, Employee employee) {
         this.patient      = patient;
         this.apptDAO      = apptDAO;
         this.isEmployee   = isEmployee;
+        this.employee     = employee;
         this.currentMonth = LocalDate.now().withDayOfMonth(1);
         this.selectedDate = LocalDate.now();
         buildUI();
@@ -317,7 +320,7 @@ public class CalendarView {
 
     private void goBack() {
         frame.dispose();
-        if (isEmployee) new EmployeeMenu(null);
+        if (isEmployee) new EmployeeMenu(employee);
         else            new PatientMenu(patient);
     }
 }

@@ -13,11 +13,12 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 /**
- * Dashboard shown after an employee (dentist / staff) logs in
+ *
+ * 
  */
 public class EmployeeMenu {
 
-    private final Employee       employee;   // may be null when reopening menu
+    private final Employee       employee;
     private final PatientDAO     patientDAO = new PatientDAO();
     private final AppointmentDAO apptDAO    = new AppointmentDAO();
 
@@ -173,7 +174,7 @@ public class EmployeeMenu {
 
         if (input.trim().isEmpty()) {
             parent.dispose();
-            WelcomePage.registration(false);
+            WelcomePage.registration(false, employee);
             return;
         }
 
@@ -184,11 +185,11 @@ public class EmployeeMenu {
                     "Not Found", JOptionPane.YES_NO_OPTION);
             if (choice == JOptionPane.YES_OPTION) {
                 parent.dispose();
-                WelcomePage.registration(false);
+                WelcomePage.registration(false, employee);
             }
         } else {
             parent.dispose();
-            new CalendarView(p, apptDAO, true);
+            new CalendarView(p, apptDAO, true, employee);
         }
     }
 

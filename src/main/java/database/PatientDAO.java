@@ -52,7 +52,8 @@ public class PatientDAO {
         List<Patient> list = new ArrayList<>();
         String sql = "SELECT * FROM patients ORDER BY name";
 
-        try (ResultSet rs = DatabaseManager.getConnection().createStatement().executeQuery(sql)){
+        try (Statement stmt = DatabaseManager.getConnection().createStatement();
+             ResultSet rs   = stmt.executeQuery(sql)) {
             while (rs.next()) list.add(mapRow(rs));
 
         } catch (SQLException e) {

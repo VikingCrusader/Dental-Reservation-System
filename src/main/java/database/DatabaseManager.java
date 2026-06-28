@@ -1,5 +1,4 @@
 package database;
-import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;
 
 public class DatabaseManager {
@@ -89,14 +88,16 @@ public class DatabaseManager {
         if (rs.next() && rs.getInt("n") == 0) {
             String sql = "INSERT INTO employees (name, username, password, role) VALUES (?, ?, ?, ?)";
             try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+                // Passwords are pre-hashed with BCrypt (cost=10); plain-text never stored in source.
+                // djohn→"12345", Sami→"54321"
                 String[][] data = {
-                    {"John Dow",  "djohn", "12345",  "dentist"},
-                    {"Sam Alton", "Sami",  "54321",  "dentist"}
+                    {"John Dow",  "djohn", "$2a$10$AGK5gLJOIAa1BnvvPmRjJOWpbGZ8zRM1t5jfr9GyGILO/76jE1TVy", "dentist"},
+                    {"Sam Alton", "Sami",  "$2a$10$aL.UO7OaQYmzdSt25tfcFeZ03R5.CuR9Oe2TE/kA3fkQjs8pWH3ga", "dentist"}
                 };
                 for (String[] row : data) {
                     ps.setString(1, row[0]);
                     ps.setString(2, row[1]);
-                    ps.setString(3, BCrypt.hashpw(row[2], BCrypt.gensalt()));
+                    ps.setString(3, row[2]);
                     ps.setString(4, row[3]);
                     ps.executeUpdate();
                 }
@@ -111,15 +112,17 @@ public class DatabaseManager {
         if (rs.next() && rs.getInt("n") == 0) {
             String sql = "INSERT INTO patients (name, username, password, email, address, telephone) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+                // Passwords are pre-hashed with BCrypt (cost=10); plain-text never stored in source.
+                // lxx2002→"020712Xiao!", hofmann→"ichbinHofmann##DE", leean1991→"LeeAN1991***"
                 String[][] data = {
-                    {"Xiaoxiao Lin",    "lxx2002",   "020712Xiao!",      "lxx@gmail.com",         "Prague",    "+420 778913400"},
-                    {"Florian Hofmann", "hofmann",   "ichbinHofmann##DE","hofmann@hotmail.com",   "Frankfurt", "+49 582736400"},
-                    {"An Lee",          "leean1991", "LeeAN1991***",      "leean1991@outlook.com", "Taipei",    "+886 139267893"}
+                    {"Xiaoxiao Lin",    "lxx2002",   "$2a$10$AeUwVVt7RkXNiI4qxb7caO5MxEqOnul/uol3BiRoeOi7WXk3g4Itu", "lxx@gmail.com",         "Prague",    "+420 778913400"},
+                    {"Florian Hofmann", "hofmann",   "$2a$10$rWhYXFjzB68kJXzO9uBVDuzBlPBZMN8Y15K/evvUAa5/O8vDKU1.K", "hofmann@hotmail.com",   "Frankfurt", "+49 582736400"},
+                    {"An Lee",          "leean1991", "$2a$10$o9McIk0TYvAUksVWOFr4W.LdVVUvMrcdlwiGRXLXuP0nZTQRa0wB6", "leean1991@outlook.com", "Taipei",    "+886 139267893"}
                 };
                 for (String[] row : data) {
                     ps.setString(1, row[0]);
                     ps.setString(2, row[1]);
-                    ps.setString(3, BCrypt.hashpw(row[2], BCrypt.gensalt()));
+                    ps.setString(3, row[2]);
                     ps.setString(4, row[3]);
                     ps.setString(5, row[4]);
                     ps.setString(6, row[5]);

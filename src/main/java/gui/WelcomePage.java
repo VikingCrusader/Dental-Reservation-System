@@ -23,7 +23,8 @@ public class WelcomePage {
     // "fromLogin" : Flag indicating the caller of registration():
     // fromLogin  → opened from the Login page   (A Patient register him/herself: Go Back / success → return to login)
     // !fromLogin → opened from EmployeeMenu     (An Employee register a Patient: Go Back → employee menu reopens itself; success → open CalendarView)
-    private static boolean fromLogin;
+    private static boolean  fromLogin;
+    private static Employee employeeContext;  // the employee who triggered registration
 
     // ── LOGIN ─────────────────────────────────────────────────────────────────
 
@@ -172,7 +173,7 @@ public class WelcomePage {
         // ── Register button ───────────────────────────────────────────────────
         btnRegister.addActionListener(e -> {
             frame.dispose();
-            registration(true);
+            registration(true, null);
         });
 
         // After all components added done, set the panel visible
@@ -187,8 +188,9 @@ public class WelcomePage {
      * @param fromLogin true  → "Go Back" button returns to login screen
      *                  false → called from EmployeeMenu (back goes to employee menu)
      */
-    public static void registration(boolean fromLogin) {
-        WelcomePage.fromLogin = fromLogin;
+    public static void registration(boolean fromLogin, Employee employee) {
+        WelcomePage.fromLogin       = fromLogin;
+        WelcomePage.employeeContext = employee;
         JFrame frame = new JFrame("Register New Patient");
         frame.setSize(420, 360);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -271,7 +273,7 @@ public class WelcomePage {
                     login();
                 } else {
                     // Employee registered a new patient → go straight to booking in the calender page
-                    new CalendarView(p, new AppointmentDAO(), true);
+                    new CalendarView(p, new AppointmentDAO(), true, WelcomePage.employeeContext);
                 }
             } else {
                 JOptionPane.showMessageDialog(frame,

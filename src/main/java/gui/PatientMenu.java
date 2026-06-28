@@ -56,7 +56,7 @@ public class PatientMenu {
     private void handle(int action, JFrame frame) {
         switch (action) {
             case 0 -> showMyAppointments(frame);
-            case 1 -> { frame.dispose(); new CalendarView(patient, apptDAO, false); } //open calendar to make a new appointment
+            case 1 -> { frame.dispose(); new CalendarView(patient, apptDAO, false, null); } //open calendar to make a new appointment
             case 2 -> showCancelScreen(frame);
             case 3 -> { frame.dispose(); WelcomePage.login(); }
         }
